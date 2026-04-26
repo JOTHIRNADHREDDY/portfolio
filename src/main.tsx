@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import App from './App.tsx';
 import { ThemeProvider } from './utils/ThemeContext';
 import { AuthProvider } from './utils/AuthContext';
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <DataStoreProvider>
             <App />
+            <Analytics />
           </DataStoreProvider>
         </AuthProvider>
       </ThemeProvider>
