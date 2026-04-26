@@ -1,10 +1,17 @@
 import { motion } from 'motion/react';
 import { Mail, MapPin, Github, Linkedin, ArrowUpRight, Heart } from 'lucide-react';
 import { staggerContainer, fadeUpVariant } from '../../utils/animations';
+import { useLenis } from 'lenis/react';
 
 export function FooterSection() {
+  const lenis = useLenis();
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (lenis) {
+      lenis.scrollTo(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -72,7 +79,7 @@ export function FooterSection() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/[0.04] text-sm text-slate-500 gap-4">
           <p className="flex items-center gap-1">
-            © {new Date().getFullYear()} Peram Jothirnadh Reddy. Built with
+            © {new Date().getFullYear()} PERAM JOTHIRNADH REDDY. Built with
             <Heart size={14} className="text-red-400 inline" />
           </p>
 

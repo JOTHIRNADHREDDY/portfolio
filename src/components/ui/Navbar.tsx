@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ThemeToggle } from './ThemeToggle';
+import { useLenis } from 'lenis/react';
 
 interface NavItem {
   id: string;
@@ -32,6 +33,7 @@ export function Navbar({ activeSection }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const lenis = useLenis();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,12 +76,20 @@ export function Navbar({ activeSection }: NavbarProps) {
       navigate('/');
       // Give it a tiny delay to render the home page before scrolling
       setTimeout(() => {
-        const el = document.getElementById(item.id);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (lenis) {
+          lenis.scrollTo(`#${item.id}`);
+        } else {
+          const el = document.getElementById(item.id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
       }, 100);
     } else {
-      const el = document.getElementById(item.id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      if (lenis) {
+        lenis.scrollTo(`#${item.id}`);
+      } else {
+        const el = document.getElementById(item.id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 

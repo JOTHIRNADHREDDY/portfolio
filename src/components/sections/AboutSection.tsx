@@ -86,6 +86,7 @@ export function AboutSection() {
             </motion.div>
 
             <motion.h1 variants={blurFadeVariant} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+              <span className="block text-cyan-400 text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-normal">PERAM JOTHIRNADH REDDY</span>
               <span className="block text-white">Designing Autonomous</span>
               <span className="block text-white">Robotic Systems for</span>
               <span className="block mt-2">

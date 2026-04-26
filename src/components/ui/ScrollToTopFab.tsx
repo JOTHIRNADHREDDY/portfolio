@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
+import { useLenis } from 'lenis/react';
 
 export function ScrollToTopFab() {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,8 +14,14 @@ export function ScrollToTopFab() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const lenis = useLenis();
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (lenis) {
+      lenis.scrollTo(0);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
