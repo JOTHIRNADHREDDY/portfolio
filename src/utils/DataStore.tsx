@@ -1,0 +1,234 @@
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { collection, onSnapshot, setDoc, deleteDoc, doc } from 'firebase/firestore';
+import { db } from './firebase';
+
+export interface Project {
+  id: string;
+  title: string;
+  problem: string;
+  longProblem: string;
+  approach: string;
+  learning: string;
+  tech: string[];
+  github: string;
+  metrics: Record<string, number>;
+  theme: string;
+  datasheets: { name: string; link: string }[];
+  videoDemo: string;
+  category: string;
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  date: string;
+  readingTime: string;
+  summary: string;
+  tags: string[];
+  content: string;
+}
+
+interface DataStoreContextType {
+  projects: Project[];
+  blogPosts: BlogPost[];
+  addProject: (project: Omit<Project, 'id'>) => void;
+  removeProject: (id: string) => void;
+  addBlogPost: (post: Omit<BlogPost, 'id'>) => void;
+  removeBlogPost: (id: string) => void;
+}
+
+const DataStoreContext = createContext<DataStoreContextType | undefined>(undefined);
+
+// Default projects (these are the hardcoded ones from the original)
+const defaultProjects: Project[] = [
+  {
+    id: 'default-1',
+    title: "Semi-Autonomous Weed Detection & Laser Removal Robot",
+    problem: "Inefficient and environmentally harmful chemical weed control in agriculture.",
+    longProblem: "Modern agriculture relies heavily on chemical herbicides, leading to environmental degradation, resistant weed strains, and high recurring costs. Manual weeding is labor-intensive and inefficient. This project addresses the need for a sustainable, precision-targeted weed control mechanism that operates semi-autonomously in diverse field conditions.",
+    approach: "Developed a real-time targeting system using computer vision to identify and precisely eliminate weeds using a laser mechanism.",
+    learning: "Advanced YOLO model deployment on edge devices and high-precision actuator control.",
+    tech: ['YOLOv11s', 'ESP32 DevKit', 'Real-time targeting'],
+    github: "https://github.com/JOTHIRNADHREDDY/Semi-Autonomous-Weed-Detection-and-Removal-Robot",
+    metrics: { accuracy: 95, stability: 88, efficiency: 92 },
+    theme: "emerald",
+    datasheets: [{ name: "ESP32-WROOM-32D", link: "#" }, { name: "Laser Diode 5W", link: "#" }],
+    videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
+    category: "Hardware",
+  },
+  {
+    id: 'default-2',
+    title: "Self-Balancing Robot",
+    problem: "Maintaining stability in two-wheeled robotic platforms under dynamic disturbances.",
+    longProblem: "Two-wheeled inverted pendulum robots are inherently unstable and non-linear systems. The primary challenge is to maintain balance while navigating uneven terrain or responding to external forces.",
+    approach: "Implemented a closed-loop control system utilizing IMU sensor fusion and proportional-integral-derivative algorithms.",
+    learning: "Deep understanding of PID tuning, sensor noise filtering, and real-time motor control.",
+    tech: ['Arduino Uno', 'MPU6050', 'PID Control'],
+    github: "#",
+    metrics: { accuracy: 85, stability: 94, efficiency: 80 },
+    theme: "blue",
+    datasheets: [{ name: "MPU6050 6-DoF IMU", link: "#" }, { name: "L298N Motor Driver", link: "#" }],
+    videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
+    category: "Hardware",
+  },
+  {
+    id: 'default-3',
+    title: "Pneumatic Safety Bumper",
+    problem: "Need for rapid-response mechanical impact absorption in autonomous vehicles.",
+    longProblem: "Autonomous vehicles operating in dynamic environments require fail-safe physical intervention mechanisms when software collision avoidance fails.",
+    approach: "Designed a pneumatic system using double-acting cylinders triggered by proximity sensors to deploy a physical barrier.",
+    learning: "Fluid power systems, mechanical CAD design, and rapid prototyping.",
+    tech: ['Double-acting cylinders', 'SolidWorks', 'Pneumatics'],
+    github: "#",
+    metrics: { accuracy: 90, stability: 98, efficiency: 85 },
+    theme: "amber",
+    datasheets: [{ name: "SMC Double-Acting Cylinder", link: "#" }, { name: "5/2 Way Solenoid Valve", link: "#" }],
+    videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
+    category: "Hardware",
+  },
+  {
+    id: 'default-4',
+    title: "IoT Trash Segregation Robot",
+    problem: "Manual sorting of hazardous and mixed waste materials.",
+    longProblem: "Waste segregation is a critical step in recycling, but manual sorting is hazardous, slow, and prone to human error.",
+    approach: "Built an automated sorting mechanism using inductive sensors and IoT connectivity for remote monitoring.",
+    learning: "Sensor integration, IoT telemetry, and automated mechanical sorting.",
+    tech: ['Arduino + ESP32', 'Blynk', 'Metal detection'],
+    github: "https://github.com/JOTHIRNADHREDDY/Manually-Controlled-Trash-Collecting-Bot",
+    metrics: { accuracy: 88, stability: 90, efficiency: 95 },
+    theme: "purple",
+    datasheets: [{ name: "LJ12A3-4-Z/BX Inductive Sensor", link: "#" }, { name: "ESP32 NodeMCU", link: "#" }],
+    videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
+    category: "Hardware",
+  }
+];
+
+const defaultBlogPosts: BlogPost[] = [
+  {
+    id: 'default-blog-1',
+    slug: 'weed-detection-robot',
+    title: 'Building the Semi-Autonomous Weed Detection Robot',
+    date: 'Oct 24, 2025',
+    readingTime: '5 min read',
+    summary: 'A deep dive into deploying YOLOv11s on an edge device for real-time agricultural applications.',
+    tags: ['Computer Vision', 'Robotics', 'Agriculture'],
+    content: '', // MDX content is rendered by the existing MDX route
+  }
+];
+
+const STORAGE_KEY_PROJECTS = 'portfolio-projects';
+const STORAGE_KEY_BLOGS = 'portfolio-blogs';
+
+function generateId(): string {
+  return `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+export function DataStoreProvider({ children }: { children: React.ReactNode }) {
+  const [projects, setProjects] = useState<Project[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY_PROJECTS);
+      if (saved) {
+        try {
+          const custom = JSON.parse(saved) as Project[];
+          return [...defaultProjects, ...custom];
+        } catch { /* ignore */ }
+      }
+    }
+    return defaultProjects;
+  });
+
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY_BLOGS);
+      if (saved) {
+        try {
+          const custom = JSON.parse(saved) as BlogPost[];
+          return [...defaultBlogPosts, ...custom];
+        } catch { /* ignore */ }
+      }
+    }
+    return defaultBlogPosts;
+  });
+
+  // Listen to Firestore OR persist to localStorage
+  useEffect(() => {
+    if (db) {
+      // Firebase Sync for Projects
+      const unsubProjects = onSnapshot(collection(db, 'projects'), (snap) => {
+        const custom = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
+        setProjects([...defaultProjects, ...custom]);
+      });
+
+      // Firebase Sync for Blogs
+      const unsubBlogs = onSnapshot(collection(db, 'blogPosts'), (snap) => {
+        const custom = snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+        setBlogPosts([...defaultBlogPosts, ...custom]);
+      });
+
+      return () => {
+        unsubProjects();
+        unsubBlogs();
+      };
+    } else {
+      // LocalStorage fallback
+      const customProjects = projects.filter(p => p.id.startsWith('custom-'));
+      localStorage.setItem(STORAGE_KEY_PROJECTS, JSON.stringify(customProjects));
+      
+      const customBlogs = blogPosts.filter(b => b.id.startsWith('custom-'));
+      localStorage.setItem(STORAGE_KEY_BLOGS, JSON.stringify(customBlogs));
+    }
+  }, [projects, blogPosts]);
+
+  const addProject = useCallback(async (project: Omit<Project, 'id'>) => {
+    const id = generateId();
+    const newProject: Project = { ...project, id };
+    
+    if (db) {
+      await setDoc(doc(db, 'projects', id), project);
+    } else {
+      setProjects(prev => [...prev, newProject]);
+    }
+  }, []);
+
+  const removeProject = useCallback(async (id: string) => {
+    if (db && id.startsWith('custom-')) {
+      await deleteDoc(doc(db, 'projects', id));
+    } else {
+      setProjects(prev => prev.filter(p => p.id !== id));
+    }
+  }, []);
+
+  const addBlogPost = useCallback(async (post: Omit<BlogPost, 'id'>) => {
+    const id = generateId();
+    const newPost: BlogPost = { ...post, id };
+    
+    if (db) {
+      await setDoc(doc(db, 'blogPosts', id), post);
+    } else {
+      setBlogPosts(prev => [...prev, newPost]);
+    }
+  }, []);
+
+  const removeBlogPost = useCallback(async (id: string) => {
+    if (db && id.startsWith('custom-')) {
+      await deleteDoc(doc(db, 'blogPosts', id));
+    } else {
+      setBlogPosts(prev => prev.filter(b => b.id !== id));
+    }
+  }, []);
+
+  return (
+    <DataStoreContext.Provider value={{ projects, blogPosts, addProject, removeProject, addBlogPost, removeBlogPost }}>
+      {children}
+    </DataStoreContext.Provider>
+  );
+}
+
+export function useDataStore() {
+  const context = useContext(DataStoreContext);
+  if (context === undefined) {
+    throw new Error('useDataStore must be used within a DataStoreProvider');
+  }
+  return context;
+}

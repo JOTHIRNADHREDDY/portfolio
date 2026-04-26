@@ -1,0 +1,64 @@
+import { BlogPostLayout } from '../components/blog/BlogPostLayout';
+
+export const meta = {
+  title: "Building the Semi-Autonomous Weed Detection Robot",
+  date: "Oct 24, 2025",
+  readingTime: "5 min read",
+  summary: "A deep dive into deploying YOLOv11s on an edge device for real-time agricultural applications."
+};
+
+export default function Post({ children }) {
+  return <BlogPostLayout {...meta}>{children}</BlogPostLayout>;
+}
+
+# The Motivation
+
+Modern agriculture relies heavily on chemical herbicides, which leads to environmental degradation and resistant weed strains. The goal of this project was to design a sustainable, physical weed control mechanism using **computer vision** and **laser actuators**.
+
+## Hardware Architecture
+
+The core processing unit for this system is an **ESP32 DevKit** paired with an external camera module. 
+
+We selected the ESP32 because it offers:
+- Excellent performance/watt ratio
+- Built-in Wi-Fi for telemetry
+- Sufficient GPIO pins for motor control
+
+> "Edge computing in agriculture isn't just about speed; it's about operating reliably in environments with zero internet connectivity."
+
+## Software Stack
+
+The software pipeline consists of three main stages:
+
+1.  **Image Acquisition:** Capturing high-resolution frames at 30 FPS.
+2.  **Inference:** Running a quantized version of `YOLOv11s` optimized for microcontrollers.
+3.  **Actuation:** Sending PWM signals to the targeting gimbals.
+
+### The Code
+
+Here is a simplified snippet of our targeting algorithm in C++:
+
+```cpp
+void targetWeed(BoundingBox box) {
+  // Calculate center of the bounding box
+  int centerX = box.x + (box.width / 2);
+  int centerY = box.y + (box.height / 2);
+  
+  // Convert pixel coordinates to servo angles
+  float targetPan = map(centerX, 0, FRAME_WIDTH, MIN_PAN, MAX_PAN);
+  float targetTilt = map(centerY, 0, FRAME_HEIGHT, MIN_TILT, MAX_TILT);
+  
+  // Actuate servos
+  panServo.write(targetPan);
+  tiltServo.write(targetTilt);
+  
+  // Fire laser
+  fireLaser(500); // 500ms pulse
+}
+```
+
+## Results and Next Steps
+
+In field tests, the system achieved a **95% accuracy** rate in identifying targeted broadleaf weeds, operating for 4 hours on a standard 12V LiPo battery.
+
+Future improvements will focus on multi-spectral imaging to detect weeds earlier in their growth cycle.
