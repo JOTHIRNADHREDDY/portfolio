@@ -52,7 +52,7 @@ export default function RobotScene({ activeSection }: { activeSection: string })
       {/* Video Background */}
       {shouldLoad && !prefersReducedMotion() && (
         <video
-          src="https://res.cloudinary.com/docyav5vn/video/upload/e_boomerang/w_3840,c_scale,q_auto:best/v1777112178/20260425_153010-CINEMATIC_2_ckhgvo.mp4"
+          src="https://res.cloudinary.com/docyav5vn/video/upload/e_boomerang/w_1920,c_scale,q_auto/v1777112178/20260425_153010-CINEMATIC_2_ckhgvo.mp4"
           autoPlay
           loop
           muted
