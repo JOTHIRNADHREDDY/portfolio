@@ -44,7 +44,7 @@ const DataStoreContext = createContext<DataStoreContextType | undefined>(undefin
 const defaultProjects: Project[] = [
   {
     id: 'default-5',
-    title: "Real-Time Industrial Process Monitor (ESP32) - Apr 2026",
+    title: "Real-Time Industrial Process Monitor (ESP32) (Apr 2026)",
     problem: "Modern small-scale industrial setups lack affordable, local real-time monitoring systems.",
     longProblem: "Modern small-scale industrial setups often lack affordable, real-time monitoring systems. Existing solutions depend on cloud infrastructure, dedicated apps, or expensive PLC systems, making them less accessible. There is a need for a lightweight, local, and reliable system that can monitor key parameters like pressure, tank level, and motor performance without internet dependency.",
     approach: "Developed a real-time monitoring system using ESP32 that streams live data over WebSocket to a browser-based dashboard. The system measures pressure, tank level, and motor RPM, and ensures safe operation through hardware-level fail-safes like a normally-closed relay for automatic shutdown during abnormal conditions.",
@@ -65,7 +65,7 @@ const defaultProjects: Project[] = [
   },
   {
     id: 'default-1',
-    title: "Semi-Autonomous Weed Detection & Laser Removal Robot - Feb 2026 \u2013 Mar 2026",
+    title: "Semi-Autonomous Weed Detection & Laser Removal Robot (Feb 2026 – Mar 2026)",
     problem: "Inefficient and environmentally harmful chemical weed control in agriculture.",
     longProblem: "Modern agriculture relies heavily on chemical herbicides, leading to environmental degradation, resistant weed strains, and high recurring costs. Manual weeding is labor-intensive and inefficient. This project addresses the need for a sustainable, precision-targeted weed control mechanism that operates semi-autonomously in diverse field conditions.",
     approach: "Developed a real-time targeting system using computer vision to identify and precisely eliminate weeds using a laser mechanism.",
@@ -80,7 +80,7 @@ const defaultProjects: Project[] = [
   },
   {
     id: 'default-3',
-    title: "Pneumatic Safety Bumper - Oct 2025",
+    title: "Pneumatic Safety Bumper (Oct 2025)",
     problem: "Need for rapid-response mechanical impact absorption in autonomous vehicles.",
     longProblem: "Autonomous vehicles operating in dynamic environments require fail-safe physical intervention mechanisms when software collision avoidance fails.",
     approach: "Designed a pneumatic system using double-acting cylinders triggered by proximity sensors to deploy a physical barrier.",
@@ -95,7 +95,7 @@ const defaultProjects: Project[] = [
   },
   {
     id: 'default-4',
-    title: "Manually Controlled Trash Collecting Bot - Apr 2025 \u2013 May 2025",
+    title: "Manually Controlled Trash Collecting Bot (Apr 2025 – May 2025)",
     problem: "Manual sorting of hazardous and mixed waste materials.",
     longProblem: "Waste segregation is a critical step in recycling, but manual sorting is hazardous, slow, and prone to human error.",
     approach: "Built an automated sorting mechanism using inductive sensors and IoT connectivity for remote monitoring.",
@@ -110,7 +110,7 @@ const defaultProjects: Project[] = [
   },
   {
     id: 'default-2',
-    title: "Self-Balancing Robot - Nov 2024 \u2013 Dec 2024",
+    title: "Self-Balancing Robot (Nov 2024 – Dec 2024)",
     problem: "Maintaining stability in two-wheeled robotic platforms under dynamic disturbances.",
     longProblem: "Two-wheeled inverted pendulum robots are inherently unstable and non-linear systems. The primary challenge is to maintain balance while navigating uneven terrain or responding to external forces.",
     approach: "Implemented a closed-loop control system utilizing IMU sensor fusion and proportional-integral-derivative algorithms.",
