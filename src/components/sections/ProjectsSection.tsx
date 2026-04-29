@@ -15,6 +15,18 @@ const themeColors: Record<string, { border: string; glow: string; text: string; 
   purple: { border: 'hover:border-purple-500/50', glow: 'hover:shadow-purple-500/20', text: 'group-hover:text-purple-400', bg: 'group-hover:bg-purple-500/20', glowColor: 'rgba(168,85,247,0.12)' },
 };
 
+const renderTitleWithDate = (title: string) => {
+  const match = title.match(/(.*?)\s*(\([^)]+\))$/);
+  if (match) {
+    return (
+      <>
+        {match[1]} <span className="font-normal opacity-80 whitespace-nowrap text-[0.9em]">{match[2]}</span>
+      </>
+    );
+  }
+  return title;
+};
+
 function ProjectCard({ project, onClick, isOwner, onDelete }: { project: Project; onClick: () => void; isOwner: boolean; onDelete?: () => void }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -78,7 +90,7 @@ function ProjectCard({ project, onClick, isOwner, onDelete }: { project: Project
         </div>
       </div>
 
-      <h3 className={`text-lg font-bold text-white ${theme.text} transition-colors duration-300 mb-3 relative z-10`}>{project.title}</h3>
+      <h3 className={`text-lg font-bold text-white ${theme.text} transition-colors duration-300 mb-3 relative z-10`}>{renderTitleWithDate(project.title)}</h3>
 
       <div className="flex flex-wrap gap-1.5 mb-4 relative z-10">
         {project.tech.map((t, i) => (
@@ -275,7 +287,7 @@ export function ProjectsSection() {
             >
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white pr-8">{selectedProject.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white pr-8">{renderTitleWithDate(selectedProject.title)}</h3>
                   <button
                     onClick={() => setSelectedProject(null)}
                     className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 hover:text-white transition-all"
