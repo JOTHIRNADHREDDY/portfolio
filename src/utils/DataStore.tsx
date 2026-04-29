@@ -101,6 +101,27 @@ const defaultProjects: Project[] = [
     datasheets: [{ name: "LJ12A3-4-Z/BX Inductive Sensor", link: "#" }, { name: "ESP32 NodeMCU", link: "#" }],
     videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
     category: "Hardware",
+  },
+  {
+    id: 'default-5',
+    title: "Real-Time Industrial Process Monitor (ESP32)",
+    problem: "Modern small-scale industrial setups lack affordable, local real-time monitoring systems.",
+    longProblem: "Modern small-scale industrial setups often lack affordable, real-time monitoring systems. Existing solutions depend on cloud infrastructure, dedicated apps, or expensive PLC systems, making them less accessible. There is a need for a lightweight, local, and reliable system that can monitor key parameters like pressure, tank level, and motor performance without internet dependency.",
+    approach: "Developed a real-time monitoring system using ESP32 that streams live data over WebSocket to a browser-based dashboard. The system measures pressure, tank level, and motor RPM, and ensures safe operation through hardware-level fail-safes like a normally-closed relay for automatic shutdown during abnormal conditions.",
+    learning: "Gained hands-on experience in embedded debugging, real-time communication, and hardware-software integration. Learned practical constraints of sensors, GPIO limitations, and the importance of datasheets in avoiding design mistakes.",
+    tech: ['ESP32', 'WebSocket', 'ESPAsyncWebServer', 'ArduinoJson'],
+    github: "https://github.com/JOTHIRNADHREDDY/Web-Based-Industrial-Process-Control-System-Using-ESP32",
+    metrics: { accuracy: 95, stability: 92, efficiency: 88, responsiveness: 98 },
+    theme: "emerald",
+    datasheets: [
+      { name: "ESP32 DevKit", link: "#" },
+      { name: "BTS7960 Motor Driver", link: "#" },
+      { name: "HC-SR04 Ultrasonic", link: "#" },
+      { name: "BMP280 Pressure", link: "#" },
+      { name: "Relay Module (NC)", link: "#" }
+    ],
+    videoDemo: "",
+    category: "Hardware",
   }
 ];
 

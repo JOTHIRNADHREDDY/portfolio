@@ -271,6 +271,7 @@ export function ProjectsSection() {
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
               className="bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
+              data-lenis-prevent="true"
             >
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
