@@ -51,7 +51,7 @@ const defaultProjects: Project[] = [
     approach: "I built a browser-based simulator where you place nodes, connect members, assign supports, and apply loads. The app solves for internal forces in real time and color-codes each member by stress — red for high tension, blue for compression. It also spits out analytics like maximum stress, safety factor, and individual member forces. The physics engine is custom — no library, just matrix math and equilibrium equations.",
     learning: "Seeing force distribution visually made concepts like tension, compression, and redundancy click in a way textbooks never did. I also cross-checked my simulator against hand calculations — my manual result was ~28.8 kN and the simulator gave ~27.5 kN, which was close enough to make me trust it. The hardest part was getting the equilibrium solver to work correctly across all joints simultaneously. One wrong sign in the stiffness matrix and the whole structure would \"explode\" on screen. State management with Zustand was also trickier than expected because every node move triggers a full re-solve.",
     tech: ['React (TS)', 'Zustand', 'Custom Physics Engine', 'Tailwind'],
-    github: "",
+    github: "https://github.com/JOTHIRNADHREDDY/Truss-Bridge-Simulator",
     previewUrl: "https://ai.studio/apps/f9103285-177e-4b99-9327-e6fd2c874ca5?fullscreenApplet=true",
     metrics: { physics: 100, visualization: 95, accuracy: 96 },
     theme: "amber",
