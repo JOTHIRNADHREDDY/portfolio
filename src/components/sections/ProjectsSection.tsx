@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Target, Code, ChevronRight, Github, X, FileText, PenLine, Trash2, Search } from 'lucide-react';
+import { Target, Code, ChevronRight, Github, X, FileText, PenLine, Trash2, Search, ExternalLink } from 'lucide-react';
 import { staggerContainer, fadeUpVariant, scaleInVariant } from '../../utils/animations';
 import { useAuth } from '../../utils/AuthContext';
 import { useDataStore, type Project } from '../../utils/DataStore';
@@ -100,6 +100,28 @@ function ProjectCard({ project, onClick, isOwner, onDelete }: { project: Project
       </div>
 
       <p className="text-sm text-slate-400 line-clamp-2 relative z-10 group-hover:text-slate-300 transition-colors duration-300">{project.problem}</p>
+
+      {/* AI Project Links */}
+      {project.category === 'AI' && (
+        <div className="flex flex-wrap gap-2 mt-3 relative z-20">
+          {project.github && project.github !== '#' && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-white/[0.06] border border-white/[0.08] text-slate-300 hover:bg-white/[0.12] hover:text-white transition-all duration-200">
+              <Github size={13} />
+              <span>GitHub</span>
+            </a>
+          )}
+          {project.previewUrl && project.previewUrl !== '#' && (
+            <a href={project.previewUrl} target="_blank" rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 hover:bg-cyan-500/20 hover:text-cyan-200 transition-all duration-200">
+              <ExternalLink size={13} />
+              <span>Live Preview</span>
+            </a>
+          )}
+        </div>
+      )}
 
       {/* Metrics tags */}
       <div className="mt-auto pt-4 border-t border-white/[0.04] relative z-10 flex flex-wrap gap-2">
@@ -210,30 +232,40 @@ export function ProjectsSection() {
         </motion.div>
 
         {/* Project Grid */}
-        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} className="grid md:grid-cols-2 gap-6 mb-16">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <motion.div key={project.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }}>
-                <ProjectCard
-                  project={project}
-                  onClick={() => setSelectedProject(project)}
-                  isOwner={isOwner}
-                  onDelete={() => removeProject(project.id)}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          {filtered.length === 0 && (
+        <div className="grid md:grid-cols-2 gap-6 mb-16 min-h-[200px]">
+          <AnimatePresence mode="wait">
             <motion.div
+              key={activeCategory + searchQuery}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="col-span-2 text-center py-16 text-slate-500"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="col-span-2 grid md:grid-cols-2 gap-6"
             >
-              <p className="text-lg mb-2">No projects found</p>
-              <p className="text-sm">Try adjusting your filters or search query</p>
+              {filtered.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <ProjectCard
+                    project={project}
+                    onClick={() => setSelectedProject(project)}
+                    isOwner={isOwner}
+                    onDelete={() => removeProject(project.id)}
+                  />
+                </motion.div>
+              ))}
+              {filtered.length === 0 && (
+                <div className="col-span-2 text-center py-16 text-slate-500">
+                  <p className="text-lg mb-2">No projects found</p>
+                  <p className="text-sm">Try adjusting your filters or search query</p>
+                </div>
+              )}
             </motion.div>
-          )}
-        </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Certifications */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="border-t border-white/[0.06] pt-16">
@@ -345,11 +377,22 @@ export function ProjectsSection() {
                         <span key={i} className="px-3 py-1.5 text-sm font-mono rounded-lg bg-white/[0.04] text-slate-300 border border-white/[0.06]">{t}</span>
                       ))}
                     </div>
-                    <a href={selectedProject.github} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-white text-slate-950 font-bold hover:bg-slate-200 transition-colors">
-                      <Github size={18} />
-                      <span>View Source</span>
-                    </a>
+                    <div className="flex flex-wrap gap-3">
+                      {selectedProject.github && selectedProject.github !== '#' && (
+                        <a href={selectedProject.github} target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-white text-slate-950 font-bold hover:bg-slate-200 transition-colors">
+                          <Github size={18} />
+                          <span>View Source</span>
+                        </a>
+                      )}
+                      {selectedProject.previewUrl && selectedProject.previewUrl !== '#' && (
+                        <a href={selectedProject.previewUrl} target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold hover:from-cyan-400 hover:to-blue-400 transition-all shadow-lg shadow-cyan-500/20">
+                          <ExternalLink size={18} />
+                          <span>Live Preview</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
