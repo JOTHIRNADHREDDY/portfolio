@@ -44,7 +44,7 @@ const DataStoreContext = createContext<DataStoreContextType | undefined>(undefin
 const defaultProjects: Project[] = [
   {
     id: 'default-5',
-    title: "Real-Time Industrial Process Monitor (ESP32) (Apr 2026)",
+    title: "Real-Time Industrial Process Monitor - ESP32 (Apr 2026)",
     problem: "Modern small-scale industrial setups lack affordable, local real-time monitoring systems.",
     longProblem: "Modern small-scale industrial setups often lack affordable, real-time monitoring systems. Existing solutions depend on cloud infrastructure, dedicated apps, or expensive PLC systems, making them less accessible. There is a need for a lightweight, local, and reliable system that can monitor key parameters like pressure, tank level, and motor performance without internet dependency.",
     approach: "Developed a real-time monitoring system using ESP32 that streams live data over WebSocket to a browser-based dashboard. The system measures pressure, tank level, and motor RPM, and ensures safe operation through hardware-level fail-safes like a normally-closed relay for automatic shutdown during abnormal conditions.",
@@ -77,6 +77,21 @@ const defaultProjects: Project[] = [
     datasheets: [{ name: "ESP32-WROOM-32D", link: "#" }, { name: "Laser Diode 5W", link: "#" }],
     videoDemo: "https://www.w3schools.com/html/mov_bbb.mp4",
     category: "Hardware",
+  },
+  {
+    id: 'default-6',
+    title: "Smart Basket — AI Grocery Planning App (Nov 2025)",
+    problem: "Grocery runs often go sideways due to forgotten items, exceeding budgets, and duplicated purchases.",
+    longProblem: "Honestly, the idea came from something pretty relatable \u2014 grocery runs that go sideways. You forget things, go over budget, or end up buying the same stuff twice because someone else in the family already got it. I wanted to build something that actually solves this, not just another list app.",
+    approach: "Smart Basket is an AI-powered grocery planning app where you can create and manage shopping lists, track your budget in real time, and share lists with family or roommates. The highlight is an AI assistant named Lova \u2014 type a dish name, and it breaks it down into a categorized grocery list with quantities and estimated prices. The app runs fully in the browser with no dedicated backend.",
+    learning: "Supabase's RLS policies don't automatically apply to shared queries, causing silent data access failures. A \u20B90 budget edge case showed how tiny inputs impact dashboard state. Real prompt engineering was required to make the AI return an ingredient list instead of a full recipe, and handling real-time sync with rapid state changes was a complex UI challenge.",
+    tech: ['React', 'Tailwind', 'Supabase', 'Lovable.dev', 'OpenAI API'],
+    github: "https://github.com/JOTHIRNADHREDDY/smartbasket-list",
+    metrics: { accuracy: 95, responsiveness: 98, usability: 90 },
+    theme: "purple",
+    datasheets: [],
+    videoDemo: "",
+    category: "AI",
   },
   {
     id: 'default-3',
@@ -195,7 +210,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       // LocalStorage fallback
       const customProjects = projects.filter(p => p.id.startsWith('custom-'));
       localStorage.setItem(STORAGE_KEY_PROJECTS, JSON.stringify(customProjects));
-      
+
       const customBlogs = blogPosts.filter(b => b.id.startsWith('custom-'));
       localStorage.setItem(STORAGE_KEY_BLOGS, JSON.stringify(customBlogs));
     }
@@ -204,7 +219,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   const addProject = useCallback(async (project: Omit<Project, 'id'>) => {
     const id = generateId();
     const newProject: Project = { ...project, id };
-    
+
     if (db) {
       await setDoc(doc(db, 'projects', id), project);
     } else {
@@ -223,7 +238,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   const addBlogPost = useCallback(async (post: Omit<BlogPost, 'id'>) => {
     const id = generateId();
     const newPost: BlogPost = { ...post, id };
-    
+
     if (db) {
       await setDoc(doc(db, 'blogPosts', id), post);
     } else {
