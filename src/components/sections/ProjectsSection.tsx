@@ -20,7 +20,8 @@ const renderTitleWithDate = (title: string) => {
   if (match) {
     return (
       <>
-        {match[1]} <span className="font-normal opacity-80 whitespace-nowrap text-[0.9em]">{match[2]}</span>
+        <span className="block leading-snug">{match[1]}</span>
+        <span className="block font-normal opacity-70 text-[0.8em] mt-1 text-slate-300">{match[2]}</span>
       </>
     );
   }
