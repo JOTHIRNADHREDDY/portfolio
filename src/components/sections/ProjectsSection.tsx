@@ -57,7 +57,7 @@ function ProjectCard({ project, onClick, isOwner, onDelete }: { project: Project
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transformPerspective: 800, rotateX: tilt.x, rotateY: tilt.y }}
-      className={`group cursor-pointer glass-card ${theme.border} rounded-2xl p-6 transition-all duration-500 shadow-lg hover:shadow-2xl ${theme.glow} relative overflow-hidden`}
+      className={`group cursor-pointer glass-card ${theme.border} rounded-2xl p-6 transition-all duration-500 shadow-lg hover:shadow-2xl ${theme.glow} relative overflow-hidden flex flex-col h-full`}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
@@ -102,7 +102,7 @@ function ProjectCard({ project, onClick, isOwner, onDelete }: { project: Project
       <p className="text-sm text-slate-400 line-clamp-2 relative z-10 group-hover:text-slate-300 transition-colors duration-300">{project.problem}</p>
 
       {/* Metrics tags */}
-      <div className="mt-4 pt-4 border-t border-white/[0.04] relative z-10 flex flex-wrap gap-2">
+      <div className="mt-auto pt-4 border-t border-white/[0.04] relative z-10 flex flex-wrap gap-2">
         {Object.keys(project.metrics).map((key) => (
           <span key={key} className="px-2.5 py-1 text-[11px] font-mono rounded-full bg-cyan-500/8 border border-cyan-500/15 text-cyan-300/80 uppercase tracking-wider">
             {key}

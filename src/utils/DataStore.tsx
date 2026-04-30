@@ -43,6 +43,21 @@ const DataStoreContext = createContext<DataStoreContextType | undefined>(undefin
 // Default projects (these are the hardcoded ones from the original)
 const defaultProjects: Project[] = [
   {
+    id: 'default-7',
+    title: "🏗️ Truss Bridge Simulator — Real-Time Structural Analysis Tool (Apr 2026)",
+    problem: "Truss problems in class felt abstract. I wanted something visual to build and test designs instantly.",
+    longProblem: "Truss problems in class always felt abstract. You solve equations and move on, but I never really understood how forces actually flow through a structure. I wanted something visual where I could build and test designs instantly.",
+    approach: "Built a browser-based Truss Bridge Simulator where you can design structures and analyze them in real time. It allows placing nodes, connecting members, assigning supports, and applying loads. The simulation calculates internal forces and shows stress using a color gradient, providing analytics like maximum stress, safety factor, and member forces.",
+    learning: "Seeing force distribution visually made concepts like tension, compression, and redundancy much clearer. I also verified results manually — my calculations (~28.8 kN) closely matched the simulation (~27.5 kN). The hardest part was getting equilibrium calculations correct across all joints and managing state updates.",
+    tech: ['React (TS)', 'Zustand', 'Custom Physics Engine', 'Tailwind'],
+    github: "https://ai.studio/apps/f9103285-177e-4b99-9327-e6fd2c874ca5?fullscreenApplet=true",
+    metrics: { physics: 100, visualization: 95, accuracy: 96 },
+    theme: "amber",
+    datasheets: [],
+    videoDemo: "",
+    category: "AI",
+  },
+  {
     id: 'default-5',
     title: "Real-Time Industrial Process Monitor - ESP32 (Apr 2026)",
     problem: "Modern small-scale industrial setups lack affordable, local real-time monitoring systems.",
