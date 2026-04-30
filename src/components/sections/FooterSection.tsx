@@ -24,25 +24,34 @@ export function FooterSection() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <div className="grid md:grid-cols-2 gap-12 mb-16">
-            <motion.div variants={fadeUpVariant}>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Let's Build the <span className="gradient-text">Future.</span>
+            <motion.div variants={fadeUpVariant} className="glass-card p-6 rounded-2xl border-white/[0.06]">
+              <h2 className="text-2xl font-bold mb-4">
+                Let's <span className="gradient-text">Talk.</span>
               </h2>
-              <p className="text-slate-400 max-w-md mb-8 leading-relaxed">
-                Open to Robotics Internships, Jobs, Entrepreneurship, Research Collaborations, and Advanced Engineering Projects.
+              <p className="text-slate-400 text-sm mb-6">
+                Open to Robotics Internships, Jobs, Entrepreneurship, and Advanced Engineering Projects.
               </p>
-              <motion.a
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=p.jothirnadhreddy@gmail.com&su=Contact%20from%20Portfolio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all"
-              >
-                <Mail size={18} />
-                <span>Get in Touch</span>
-                <ArrowUpRight size={16} />
-              </motion.a>
+              
+              <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-xs font-medium text-slate-400 mb-1">Name</label>
+                    <input type="text" id="name" name="name" required className="w-full bg-white/[0.03] border border-white/[0.06] rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors" placeholder="John Doe" />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-xs font-medium text-slate-400 mb-1">Email</label>
+                    <input type="email" id="email" name="email" required className="w-full bg-white/[0.03] border border-white/[0.06] rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors" placeholder="john@example.com" />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-xs font-medium text-slate-400 mb-1">Message</label>
+                  <textarea id="message" name="message" required rows={3} className="w-full bg-white/[0.03] border border-white/[0.06] rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50 transition-colors resize-none" placeholder="Hello, I'd like to discuss a robotics project..."></textarea>
+                </div>
+                <button type="submit" className="w-full flex items-center justify-center space-x-2 py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium hover:shadow-lg hover:shadow-cyan-500/20 transition-all active:scale-[0.98]">
+                  <span>Send Message</span>
+                  <ArrowUpRight size={16} />
+                </button>
+              </form>
             </motion.div>
 
             <motion.div variants={fadeUpVariant} className="space-y-5">

@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { Terminal, ChevronRight, Github, Linkedin, Download, Cpu, Sparkles, Bot, Zap } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import { staggerContainer, fadeUpVariant, fadeRightVariant, fadeLeftVariant, blurFadeVariant } from '../../utils/animations';
+import { ResumeModal } from '../ui/ResumeModal';
 
 function TypeWriter({ texts, speed = 80 }: { texts: string[]; speed?: number }) {
   const [currentTextIdx, setCurrentTextIdx] = useState(0);
@@ -71,6 +72,7 @@ export function AboutSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const yParallax = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   return (
     <section id="space" ref={ref} className="relative min-h-screen pt-20 overflow-hidden">
@@ -115,10 +117,10 @@ export function AboutSection() {
                 className="px-7 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 flex items-center space-x-2">
                 <Linkedin size={18} /><span>LinkedIn</span>
               </motion.a>
-              <motion.a whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} href="#"
+              <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} onClick={() => setIsResumeOpen(true)}
                 className="px-7 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 flex items-center space-x-2">
                 <Download size={18} /><span>Resume</span>
-              </motion.a>
+              </motion.button>
             </motion.div>
           </motion.div>
         </div>
@@ -187,6 +189,7 @@ export function AboutSection() {
           </motion.div>
         </div>
       </div>
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
     </section>
   );
 }
