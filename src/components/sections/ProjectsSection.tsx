@@ -145,6 +145,7 @@ export function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Get categories that actually have projects
   const availableCategories = useMemo(() => {
@@ -202,37 +203,66 @@ export function ProjectsSection() {
         </motion.div>
 
         {/* Filter & Search Bar */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col sm:flex-row gap-4 mb-10">
-          <div className="flex flex-wrap gap-2 flex-1">
-            {availableCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 text-sm rounded-lg font-medium transition-all duration-300 ${
-                  activeCategory === cat
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                    : 'bg-white/[0.03] text-slate-400 border border-white/[0.06] hover:bg-white/[0.06] hover:text-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col sm:flex-row gap-4 mb-10 items-start sm:items-center">
+          {/* Category Dropdown */}
+          <div className="relative z-30">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-between gap-3 px-4 py-2.5 min-w-[160px] text-sm rounded-xl font-medium bg-white/[0.03] text-slate-300 border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-300 shadow-lg"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-slate-500">Category:</span>
+                <span className="text-cyan-400">{activeCategory}</span>
+              </div>
+              <ChevronRight size={16} className={`text-slate-500 transition-transform duration-300 ${isDropdownOpen ? 'rotate-90' : 'rotate-0'}`} />
+            </button>
+            
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-0 mt-2 w-full min-w-[180px] p-1.5 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-white/[0.08] shadow-2xl z-40 overflow-hidden"
+                >
+                  {availableCategories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2.5 text-sm rounded-xl transition-all duration-200 flex items-center justify-between ${
+                        activeCategory === cat
+                          ? 'bg-cyan-500/10 text-cyan-400'
+                          : 'text-slate-400 hover:bg-white/[0.04] hover:text-slate-200'
+                      }`}
+                    >
+                      {cat}
+                      {activeCategory === cat && <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]" />}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
+
           {/* Search input */}
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+          <div className="relative flex-1 w-full sm:w-auto">
+            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="pl-9 pr-4 py-2 text-sm rounded-lg bg-white/[0.03] border border-white/[0.06] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/30 focus:ring-1 focus:ring-cyan-500/10 transition-all w-full sm:w-56"
+              className="pl-10 pr-4 py-2.5 text-sm rounded-xl bg-white/[0.03] border border-white/[0.06] text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/30 focus:ring-1 focus:ring-cyan-500/10 transition-all w-full sm:max-w-xs"
             />
           </div>
         </motion.div>
 
         {/* Project Grid */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16 min-h-[200px]">
+        <div className="mb-16 min-h-[200px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory + searchQuery}
@@ -240,9 +270,9 @@ export function ProjectsSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="col-span-2 grid md:grid-cols-2 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filtered.map((project, index) => (
+              {filtered.slice(0, 9).map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -258,13 +288,22 @@ export function ProjectsSection() {
                 </motion.div>
               ))}
               {filtered.length === 0 && (
-                <div className="col-span-2 text-center py-16 text-slate-500">
-                  <p className="text-lg mb-2">No projects found</p>
-                  <p className="text-sm">Try adjusting your filters or search query</p>
+                <div className="col-span-full text-center py-20 bg-white/[0.02] rounded-3xl border border-dashed border-white/[0.06]">
+                  <div className="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-4 text-slate-600">
+                    <Search size={24} />
+                  </div>
+                  <p className="text-lg text-slate-300 font-medium mb-1">No projects found</p>
+                  <p className="text-sm text-slate-500">Try adjusting your filters or search query</p>
                 </div>
               )}
             </motion.div>
           </AnimatePresence>
+          
+          {filtered.length > 9 && (
+            <div className="mt-12 text-center">
+              <p className="text-slate-500 text-sm font-mono italic">Showing 3 rows of results. Refine your filter to see more.</p>
+            </div>
+          )}
         </div>
 
         {/* Certifications */}
