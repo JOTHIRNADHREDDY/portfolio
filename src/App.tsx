@@ -16,6 +16,7 @@ import { CommandPalette } from './components/ui/CommandPalette';
 import { ScrollToTopFab } from './components/ui/ScrollToTopFab';
 import { AdminIndicator } from './components/ui/AdminIndicator';
 import WeedDetectionPost from './blog/weed-detection-robot.mdx';
+import { useAnimatedFavicon } from './hooks/useAnimatedFavicon';
 
 function Home({ activeSection }: { activeSection: string }) {
   return (
@@ -50,6 +51,7 @@ function PageTransition({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  useAnimatedFavicon();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
