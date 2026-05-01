@@ -3,6 +3,7 @@ import { Terminal, ChevronRight, Github, Linkedin, Download, Cpu, Sparkles, Bot,
 import { useRef, useState, useEffect } from 'react';
 import { staggerContainer, fadeUpVariant, fadeRightVariant, fadeLeftVariant, blurFadeVariant } from '../../utils/animations';
 import { ResumeModal } from '../ui/ResumeModal';
+import { AnimatedName } from '../ui/AnimatedName';
 
 function TypeWriter({ texts, speed = 80 }: { texts: string[]; speed?: number }) {
   const [currentTextIdx, setCurrentTextIdx] = useState(0);
@@ -88,7 +89,7 @@ export function AboutSection() {
             </motion.div>
 
             <motion.h1 variants={blurFadeVariant} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-              <span className="block text-cyan-400 text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-normal">PERAM JOTHIRNADH REDDY</span>
+              <AnimatedName />
               <span className="block text-white">Designing Autonomous</span>
               <span className="block text-white">Robotic Systems for</span>
               <span className="block mt-2">
