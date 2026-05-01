@@ -38,21 +38,22 @@ export function Animated3DFlip({ texts }: Animated3DFlipProps) {
         }
         .char-3d .face-front {
           position: relative;
+          transform: translateZ(0.5em);
         }
-        .char-3d .face-top, .char-3d .face-bottom {
+        .char-3d .face-left, .char-3d .face-right {
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
         }
-        .char-3d .face-top {
-          transform: rotateX(90deg) translateZ(0.5em);
-          transform-origin: bottom center;
+        .char-3d .face-left {
+          transform: rotateY(-90deg) translateZ(0.5em);
+          transform-origin: center left;
         }
-        .char-3d .face-bottom {
-          transform: rotateX(-90deg) translateZ(0.5em);
-          transform-origin: top center;
+        .char-3d .face-right {
+          transform: rotateY(90deg) translateZ(0.5em);
+          transform-origin: center right;
         }
       `;
       document.head.appendChild(style);
@@ -63,21 +64,17 @@ export function Animated3DFlip({ texts }: Animated3DFlipProps) {
 
       el.innerHTML = texts[currentIndex];
 
-      // Note: we use span with margin-right instead of spaces because animejs splitText handles spaces differently
       splitText(el, {
-        chars: `<span class="char-3d word-{i}" style="margin-right: {value} === ' ' ? '0.5em' : '0'">
-          <em class="face face-top">{value}</em>
+        chars: `<span class="char-3d word-{i}">
+          <em class="face face-left">{value}</em>
           <em class="face face-front">{value}</em>
-          <em class="face face-bottom">{value}</em>
+          <em class="face face-right">{value}</em>
         </span>`
       });
 
-      // Fix spaces having 0 width in splitText by adding margin
       const chars = el.querySelectorAll('.char-3d');
       chars.forEach(char => {
-        const text = char.textContent;
-        // animejs repeats {value} 3 times because of our 3 faces
-        if (text === '   ') { 
+        if (char.textContent === '   ') { 
           (char as HTMLElement).style.width = '0.4em';
         }
       });
@@ -90,13 +87,13 @@ export function Animated3DFlip({ texts }: Animated3DFlipProps) {
           setTimeout(() => {
             currentIndex = (currentIndex + 1) % texts.length;
             playNext();
-          }, 2000); // Wait 2 seconds before flipping to the next word
+          }, 2000);
         }
       })
-      .add(el.querySelectorAll('.char-3d'), { rotateX: -90 }, charsStagger)
-      .add(el.querySelectorAll('.char-3d .face-top'), { opacity: [.5, 0] }, charsStagger)
+      .add(el.querySelectorAll('.char-3d'), { rotateY: -90 }, charsStagger)
+      .add(el.querySelectorAll('.char-3d .face-left'), { opacity: [.5, 1] }, charsStagger)
       .add(el.querySelectorAll('.char-3d .face-front'), { opacity: [1, .5] }, charsStagger)
-      .add(el.querySelectorAll('.char-3d .face-bottom'), { opacity: [.5, 1] }, charsStagger);
+      .add(el.querySelectorAll('.char-3d .face-right'), { opacity: [.5, 0] }, charsStagger);
     };
 
     playNext();
