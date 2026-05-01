@@ -31,11 +31,11 @@ export function useAnimatedFavicon() {
 
       // Draw text
       ctx.fillStyle = gradient;
-      ctx.font = '900 38px "Courier New", monospace';
+      ctx.font = '900 55px "Courier New", monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       // Adjust y position slightly for vertical centering
-      ctx.fillText('PJR', 50, 52);
+      ctx.fillText('PJR', 50, 56);
 
       // Set to favicon
       const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement || document.createElement('link');
