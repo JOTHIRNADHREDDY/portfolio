@@ -20,13 +20,8 @@ export function useAnimatedFavicon() {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Draw background
-      ctx.fillStyle = '#020617';
-      
-      // Rounded rect
-      ctx.beginPath();
-      ctx.roundRect(0, 0, 100, 100, 20);
-      ctx.fill();
+      // Clear background to keep it transparent
+      ctx.clearRect(0, 0, 100, 100);
 
       // Create gradient
       const [color1, color2] = colors[frame % colors.length];
