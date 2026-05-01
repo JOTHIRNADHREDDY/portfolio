@@ -122,11 +122,31 @@ export function Navbar({ activeSection }: NavbarProps) {
           <a
             href="#space"
             onClick={(e) => { e.preventDefault(); handleNavClick(navItems[0]); }}
-            className="font-mono font-bold text-lg tracking-tighter group"
+            className="font-mono font-bold text-lg tracking-tighter flex items-center group cursor-pointer"
             aria-label="Go to top"
           >
-            <span className="text-cyan-400 group-hover:text-cyan-300 transition-colors">PJR</span>
-            <span className="text-slate-300 group-hover:text-white transition-colors">.ROBOTICS</span>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center"
+            >
+              <motion.span 
+                className="text-cyan-400 bg-clip-text inline-block group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-300"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                PJR
+              </motion.span>
+              <motion.span 
+                className="text-slate-300 group-hover:text-white transition-colors inline-block"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                .ROBOTICS
+              </motion.span>
+            </motion.div>
           </a>
 
           {/* Desktop Nav */}

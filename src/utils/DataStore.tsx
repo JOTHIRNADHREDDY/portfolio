@@ -104,7 +104,7 @@ const defaultProjects: Project[] = [
     learning: "Supabase's RLS policies don't automatically apply to shared queries, which caused silent data access failures that took me hours to debug. A ₹0 budget edge case broke the entire dashboard because I wasn't handling division by zero in the percentage calculations. The real prompt engineering challenge was getting the AI to return just an ingredient list instead of a full recipe — it kept wanting to give me cooking instructions too. Handling real-time sync when multiple people edit the same list was also way harder than I thought it would be.",
     tech: ['React', 'Tailwind', 'Supabase', 'Lovable.dev', 'OpenAI API'],
     github: "https://github.com/JOTHIRNADHREDDY/smartbasket-list",
-    previewUrl: "",
+    previewUrl: "https://smartbasket-list.lovable.app",
     metrics: { accuracy: 95, responsiveness: 98, usability: 90 },
     theme: "purple",
     datasheets: [],
