@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { staggerContainer, fadeUpVariant, fadeRightVariant, fadeLeftVariant, blurFadeVariant } from '../../utils/animations';
 import { ResumeModal } from '../ui/ResumeModal';
 import { AnimatedName } from '../ui/AnimatedName';
+import { Animated3DFlip } from '../ui/Animated3DFlip';
 
 function TypeWriter({ texts, speed = 80 }: { texts: string[]; speed?: number }) {
   const [currentTextIdx, setCurrentTextIdx] = useState(0);
@@ -93,7 +94,7 @@ export function AboutSection() {
               <span className="block text-white">Designing Autonomous</span>
               <span className="block text-white">Robotic Systems for</span>
               <span className="block mt-2">
-                <TypeWriter texts={['Earth and Beyond', 'Space Exploration', 'Smart Agriculture', 'Defence Systems']} />
+                <Animated3DFlip texts={['Space Exploration', 'Earth and Beyond', 'Smart Agriculture', 'Defence Systems']} />
               </span>
             </motion.h1>
 
