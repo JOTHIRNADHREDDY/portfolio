@@ -47,7 +47,7 @@ export function CustomCursor() {
     <div aria-hidden="true">
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[99999]"
         style={{
           x: cursorX,
           y: cursorY,
@@ -62,7 +62,7 @@ export function CustomCursor() {
       />
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999] border"
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[99999] border"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
