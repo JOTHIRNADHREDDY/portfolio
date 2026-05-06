@@ -15,7 +15,7 @@ export function ResumeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
     };
   }, [isOpen]);
 
-  const resumeUrl = "/resume.pdf"; // Path to resume in the public folder
+  const resumeUrl = "/CV.pdf"; // Path to resume in the public folder
 
   return (
     <AnimatePresence>
