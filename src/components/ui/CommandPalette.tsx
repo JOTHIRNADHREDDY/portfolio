@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ArrowRight, User, FolderOpen, Wrench, Mail, BookOpen, Sun, Moon, ExternalLink } from 'lucide-react';
+import { Search, ArrowRight, User, FolderOpen, Wrench, Mail, FileText, Sun, Moon, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../utils/ThemeContext';
 import { useDataStore } from '../../utils/DataStore';
@@ -21,7 +21,7 @@ export function CommandPalette() {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const { projects, blogPosts } = useDataStore();
+  const { projects } = useDataStore();
 
   // Build command list
   const commands: CommandItem[] = useMemo(() => {
@@ -30,11 +30,11 @@ export function CommandPalette() {
       { id: 'nav-projects', label: 'Go to Projects', description: 'View all projects', icon: <FolderOpen size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('defence')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
       { id: 'nav-skills', label: 'Go to Skills', description: 'View technical skills', icon: <Wrench size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('environment')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
       { id: 'nav-contact', label: 'Go to Contact', description: 'Get in touch', icon: <Mail size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
-      { id: 'nav-blog', label: 'Go to Blog', description: 'Engineering logbook', icon: <BookOpen size={16} />, action: () => navigate('/blog'), category: 'Navigation' },
     ];
 
     const actionCommands: CommandItem[] = [
       { id: 'toggle-theme', label: `Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`, description: 'Toggle theme', icon: theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />, action: toggleTheme, category: 'Actions' },
+      { id: 'resume', label: 'Open Resume', description: 'Preview or download CV', icon: <FileText size={16} />, action: () => window.dispatchEvent(new CustomEvent('open-resume')), category: 'Actions' },
       { id: 'github', label: 'Open GitHub', description: 'JOTHIRNADHREDDY', icon: <ExternalLink size={16} />, action: () => window.open('https://github.com/JOTHIRNADHREDDY', '_blank'), category: 'Actions' },
       { id: 'linkedin', label: 'Open LinkedIn', description: 'Professional network', icon: <ExternalLink size={16} />, action: () => window.open('https://www.linkedin.com/in/jothirnadhreddy-peram-204025311/', '_blank'), category: 'Actions' },
     ];
@@ -48,17 +48,8 @@ export function CommandPalette() {
       category: 'Projects',
     }));
 
-    const blogCommands: CommandItem[] = blogPosts.map(b => ({
-      id: `blog-${b.id}`,
-      label: b.title,
-      description: b.date,
-      icon: <BookOpen size={16} />,
-      action: () => navigate(`/blog/${b.slug}`),
-      category: 'Blog Posts',
-    }));
-
-    return [...navCommands, ...actionCommands, ...projectCommands, ...blogCommands];
-  }, [navigate, theme, toggleTheme, projects, blogPosts]);
+    return [...navCommands, ...actionCommands, ...projectCommands];
+  }, [navigate, theme, toggleTheme, projects]);
 
   const filteredCommands = useMemo(() => {
     if (!query.trim()) return commands;

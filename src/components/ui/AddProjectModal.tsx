@@ -27,8 +27,9 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
     category: 'Hardware',
     problem: '',
     longProblem: '',
-    approach: '',
-    learning: '',
+    whatBuilt: '',
+    challenge: '',
+    result: '',
     techInput: '',
     tech: [] as string[],
     github: '',
@@ -103,11 +104,12 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
       title: formData.title,
       problem: formData.problem,
       longProblem: formData.longProblem,
-      approach: formData.approach,
-      learning: formData.learning,
+      whatBuilt: formData.whatBuilt,
+      challenge: formData.challenge,
+      result: formData.result,
       tech: formData.tech,
       github: formData.github || '#',
-      metrics: formData.metricTags.reduce((acc, tag) => ({ ...acc, [tag]: 0 }), {} as Record<string, number>),
+      resultTags: formData.metricTags,
       theme: formData.theme,
       datasheets: formData.datasheets.filter(ds => ds.name.trim()),
       videoDemo: formData.videoDemo || '',
@@ -116,7 +118,7 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
 
     setFormData({
       title: '', category: 'Hardware', problem: '', longProblem: '',
-      approach: '', learning: '', techInput: '', tech: [], github: '',
+      whatBuilt: '', challenge: '', result: '', techInput: '', tech: [], github: '',
       metricInput: '', metricTags: [], theme: 'emerald',
       videoDemo: '', datasheets: [{ name: '', link: '' }],
     });
@@ -128,7 +130,7 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
   const labelClass = "text-sm font-medium text-slate-400 mb-2 block";
 
   const canProceedStep1 = formData.title.trim() && formData.problem.trim();
-  const canProceedStep2 = formData.approach.trim() && formData.tech.length > 0;
+  const canProceedStep2 = formData.whatBuilt.trim() && formData.tech.length > 0;
 
   return (
     <AnimatePresence>
@@ -223,13 +225,18 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
                 {step === 2 && (
                   <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
                     <div>
-                      <label className={labelClass}>Approach *</label>
-                      <textarea className={`${inputClass} resize-none h-20`} value={formData.approach} onChange={e => updateField('approach', e.target.value)} placeholder="Describe your solution approach..." />
+                      <label className={labelClass}>What I Built *</label>
+                      <textarea className={`${inputClass} resize-none h-20`} value={formData.whatBuilt} onChange={e => updateField('whatBuilt', e.target.value)} placeholder="What you built and your role..." />
                     </div>
 
                     <div>
-                      <label className={labelClass}>Learning Outcomes</label>
-                      <textarea className={`${inputClass} resize-none h-20`} value={formData.learning} onChange={e => updateField('learning', e.target.value)} placeholder="Key takeaways and skills gained..." />
+                      <label className={labelClass}>Engineering Challenge</label>
+                      <textarea className={`${inputClass} resize-none h-20`} value={formData.challenge} onChange={e => updateField('challenge', e.target.value)} placeholder="Hardest engineering challenge you solved..." />
+                    </div>
+
+                    <div>
+                      <label className={labelClass}>Result</label>
+                      <textarea className={`${inputClass} resize-none h-20`} value={formData.result} onChange={e => updateField('result', e.target.value)} placeholder="Accuracy, latency, stability, cost, or outcome..." />
                     </div>
 
                     <div>
@@ -263,7 +270,7 @@ export function AddProjectModal({ isOpen, onClose }: AddProjectModalProps) {
                 {step === 3 && (
                   <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
                     <div>
-                      <label className={labelClass}>Performance Metrics (Tags)</label>
+                      <label className={labelClass}>Measurable Results (Tags)</label>
                       <div className="flex gap-2 mb-2">
                         <input className={`${inputClass} flex-1`} value={formData.metricInput} onChange={e => updateField('metricInput', e.target.value)}
                           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addMetric(); } }}

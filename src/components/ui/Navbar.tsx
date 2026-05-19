@@ -16,7 +16,7 @@ const navItems: NavItem[] = [
   { id: 'space', label: 'About' },
   { id: 'defence', label: 'Projects' },
   { id: 'environment', label: 'Skills' },
-  { id: 'blog', label: 'Blog', isRoute: true, path: '/blog' },
+  { id: 'resume', label: 'Resume' },
   { id: 'contact', label: 'Contact' },
 ];
 
@@ -66,7 +66,12 @@ export function Navbar({ activeSection }: NavbarProps) {
 
   const handleNavClick = (item: NavItem) => {
     setIsMobileMenuOpen(false);
-    
+
+    if (item.id === 'resume') {
+      window.dispatchEvent(new CustomEvent('open-resume'));
+      return;
+    }
+
     if (item.isRoute) {
       navigate(item.path!);
       return;
@@ -179,7 +184,10 @@ export function Navbar({ activeSection }: NavbarProps) {
                 <div className="absolute inset-0 bg-emerald-400 rounded-full" />
                 <div className="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75" />
               </div>
-              <span className="text-xs text-emerald-400 font-mono">Open to Work</span>
+              <span className="text-xs text-emerald-400 font-mono hidden lg:inline">
+                Open to Robotics Internships & Collaborations
+              </span>
+              <span className="text-xs text-emerald-400 font-mono lg:hidden">Open to Robotics Roles</span>
             </div>
 
             {/* Command palette trigger */}
@@ -253,7 +261,9 @@ export function Navbar({ activeSection }: NavbarProps) {
                   <div className="absolute inset-0 bg-emerald-400 rounded-full" />
                   <div className="absolute inset-0 bg-emerald-400 rounded-full animate-ping opacity-75" />
                 </div>
-                <span className="text-sm text-emerald-400 font-mono">Open to Work</span>
+                <span className="text-sm text-emerald-400 font-mono text-center max-w-xs">
+                  Open to robotics internships, engineering collaborations, and embedded AI projects
+                </span>
               </motion.div>
             </motion.div>
           </motion.div>
