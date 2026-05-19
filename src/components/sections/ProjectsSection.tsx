@@ -15,10 +15,22 @@ const themeColors: Record<string, { border: string; glow: string; text: string; 
   purple: { border: 'hover:border-purple-500/50', glow: 'hover:shadow-purple-500/20', text: 'group-hover:text-purple-400', bg: 'group-hover:bg-purple-500/20', glowColor: 'rgba(168,85,247,0.12)' },
 };
 
-const projectVisuals: Record<string, { label: string; gradient: string }> = {
-  'default-1': { label: 'Weed detection · YOLO + ESP32', gradient: 'from-emerald-600/30 via-cyan-900/20 to-slate-900' },
-  'default-5': { label: 'ESP32 · Live process dashboard', gradient: 'from-emerald-700/30 via-teal-900/20 to-slate-900' },
-  'default-2': { label: 'PID · IMU balance control', gradient: 'from-blue-600/30 via-indigo-900/20 to-slate-900' },
+const projectVisuals: Record<string, { label: string; gradient: string; image?: string }> = {
+  'default-1': {
+    label: 'Weed detection · YOLO + ESP32',
+    gradient: 'from-emerald-600/30 via-cyan-900/20 to-slate-900',
+    image: '/projects/weed-robot.png',
+  },
+  'default-5': {
+    label: 'ESP32 · Live process dashboard',
+    gradient: 'from-emerald-700/30 via-teal-900/20 to-slate-900',
+    image: '/projects/esp32-monitor.png',
+  },
+  'default-2': {
+    label: 'PID · IMU balance control',
+    gradient: 'from-blue-600/30 via-indigo-900/20 to-slate-900',
+    image: '/projects/self-balancing-robot.png',
+  },
   'default-3': { label: 'Pneumatic safety bumper', gradient: 'from-amber-600/30 via-orange-900/20 to-slate-900' },
   'default-7': { label: 'Truss force visualization', gradient: 'from-amber-500/30 via-yellow-900/20 to-slate-900' },
   'default-4': { label: 'Remote trash collection bot', gradient: 'from-purple-600/30 via-violet-900/20 to-slate-900' },
@@ -27,9 +39,28 @@ const projectVisuals: Record<string, { label: string; gradient: string }> = {
 
 function ProjectVisual({ project, featured = false }: { project: Project; featured?: boolean }) {
   const visual = projectVisuals[project.id] || { label: project.category, gradient: 'from-slate-700/40 to-slate-900' };
+  const heightClass = featured ? 'h-48 md:h-56' : 'h-32';
+
+  if (visual.image) {
+    return (
+      <div className={`relative overflow-hidden rounded-xl mb-4 border border-white/[0.06] ${heightClass}`}>
+        <img
+          src={visual.image}
+          alt={project.title}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <span className="text-[11px] font-mono text-cyan-300/90 uppercase tracking-wider">{visual.label}</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`relative overflow-hidden rounded-xl mb-4 border border-white/[0.06] bg-gradient-to-br ${visual.gradient} ${featured ? 'h-48 md:h-56' : 'h-32'}`}
+      className={`relative overflow-hidden rounded-xl mb-4 border border-white/[0.06] bg-gradient-to-br ${visual.gradient} ${heightClass}`}
     >
       <motion.div
         className="absolute inset-0 opacity-30"
@@ -43,7 +74,7 @@ function ProjectVisual({ project, featured = false }: { project: Project; featur
       <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
         <Cpu size={featured ? 36 : 28} className="text-cyan-400/60 mb-2" />
         <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">{visual.label}</span>
-        <span className="text-[10px] text-slate-600 mt-1">Add photos in /public/projects/</span>
+        <span className="text-[10px] text-slate-600 mt-1">Photo coming soon</span>
       </div>
     </div>
   );
