@@ -19,7 +19,7 @@ const projectVisuals: Record<string, { label: string; gradient: string; image?: 
   'default-1': {
     label: 'Weed detection · YOLO + ESP32',
     gradient: 'from-emerald-600/30 via-cyan-900/20 to-slate-900',
-    image: '/projects/weed-robot.png',
+    image: '/projects/weed-robot.jpg',
   },
   'default-5': {
     label: 'ESP32 · Live process dashboard',
