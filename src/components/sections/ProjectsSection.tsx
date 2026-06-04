@@ -31,10 +31,26 @@ const projectVisuals: Record<string, { label: string; gradient: string; image?: 
     gradient: 'from-blue-600/30 via-indigo-900/20 to-slate-900',
     image: '/projects/self-balancing-robot.png',
   },
-  'default-3': { label: 'Pneumatic safety bumper', gradient: 'from-amber-600/30 via-orange-900/20 to-slate-900' },
-  'default-7': { label: 'Truss force visualization', gradient: 'from-amber-500/30 via-yellow-900/20 to-slate-900' },
-  'default-4': { label: 'Remote trash collection bot', gradient: 'from-purple-600/30 via-violet-900/20 to-slate-900' },
-  'default-6': { label: 'AI grocery planning', gradient: 'from-purple-500/30 via-fuchsia-900/20 to-slate-900' },
+  'default-3': { 
+    label: 'Pneumatic safety bumper', 
+    gradient: 'from-amber-600/30 via-orange-900/20 to-slate-900',
+    image: '/projects/pneumatic-bumper.jpg',
+  },
+  'default-7': { 
+    label: 'Truss force visualization', 
+    gradient: 'from-amber-500/30 via-yellow-900/20 to-slate-900',
+    image: '/projects/truss-simulator.png',
+  },
+  'default-4': { 
+    label: 'Remote trash collection bot', 
+    gradient: 'from-purple-600/30 via-violet-900/20 to-slate-900',
+    image: '/projects/trash-bot.jpg',
+  },
+  'default-6': { 
+    label: 'AI grocery planning', 
+    gradient: 'from-purple-500/30 via-fuchsia-900/20 to-slate-900',
+    image: '/projects/smart-basket.png',
+  },
 };
 
 function ProjectVisual({ project, featured = false }: { project: Project; featured?: boolean }) {
