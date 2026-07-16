@@ -384,4 +384,4 @@ export function useDataStore() {
   return context;
 }
 
-export const RESUME_PDF_URL = '/CV.pdf';
+export const RESUME_PDF_URL = '/Jothirnadh Resume.pdf';

@@ -15,7 +15,7 @@ export function ResumeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
     };
   }, [isOpen]);
 
-  const resumeUrl = '/CV.pdf';
+  const resumeUrl = '/Jothirnadh Resume.pdf';
 
   return (
     <AnimatePresence>
