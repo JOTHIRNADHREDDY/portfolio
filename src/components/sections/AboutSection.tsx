@@ -204,7 +204,7 @@ export function AboutSection() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-32"
         >
           <AnimatedStat value={7} label="Projects Built" suffix="+" />
-          <AnimatedStat value={9.51} label="CGPA" decimals={2} />
+          <AnimatedStat value={9.43} label="CGPA" decimals={2} />
           <AnimatedStat value={95} label="YOLO Accuracy" suffix="%" />
           <AnimatedStat value={1} label="Award Won" />
         </motion.div>
@@ -274,7 +274,7 @@ export function AboutSection() {
                     viewport={{ once: true }}
                     transition={{ type: 'spring', stiffness: 200 }}
                   >
-                    CGPA: 9.51
+                    CGPA: 9.43
                   </motion.div>
                 </div>
               </motion.div>
