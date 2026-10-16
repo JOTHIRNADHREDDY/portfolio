@@ -420,14 +420,21 @@ export function ProjectsSection() {
                 </p>
               </div>
             </motion.div>
-            <motion.div whileHover={{ y: -2 }} className="flex items-center space-x-4 glass-card-thin p-4 rounded-2xl opacity-70 flex-1 min-w-[200px]">
-              <div className="w-10 h-10 rounded-xl bg-slate-800/50 flex items-center justify-center text-slate-500 shrink-0">
-                <Code size={18} />
+            <motion.div
+              whileHover={{ y: -3 }}
+              className="flex items-center space-x-4 glass-card p-5 rounded-2xl border-cyan-500/30 flex-1 min-w-[280px]"
+            >
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 shrink-0">
+                <Code size={22} />
               </div>
-              <motion.div initial={{ opacity: 0.8 }} whileHover={{ opacity: 1 }}>
-                <motion.div className="font-medium text-slate-400 text-sm">100 Days of Code</motion.div>
-                <div className="text-xs text-slate-600">Python Bootcamp</div>
-              </motion.div>
+              <div>
+                <motion.div className="font-bold text-white" whileHover={{ x: 2 }}>
+                  100 Days of Code
+                </motion.div>
+                <p className="text-sm text-slate-400 mt-1 leading-relaxed">
+                  Complete Python Pro Bootcamp on Udemy covering object-oriented programming, data structures, automation, and backend engineering.
+                </p>
+              </div>
             </motion.div>
           </div>
         </motion.div>

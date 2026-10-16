@@ -36,6 +36,7 @@ export default function RobotScene({ activeSection }: { activeSection: string })
   const getOverlayOpacity = () => {
     switch (activeSection) {
       case 'space': return 0.15;
+      case 'experience': return 0.22;
       case 'defence': return 0.3;
       case 'environment': return 0.35;
       case 'contact': return 0.45;

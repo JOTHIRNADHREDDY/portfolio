@@ -20,8 +20,8 @@ export function AnimatedName() {
       
       // Split text into words (or characters for Japanese to look good)
       const options = {
-        words: { wrap: 'clip' },
-        chars: { wrap: 'clip' }
+        words: { wrap: 'clip' as const },
+        chars: { wrap: 'clip' as const }
       };
       
       // Split

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ArrowRight, User, FolderOpen, Wrench, Mail, FileText, Sun, Moon, ExternalLink } from 'lucide-react';
+import { Search, ArrowRight, User, FolderOpen, Wrench, Mail, FileText, Sun, Moon, ExternalLink, Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../utils/ThemeContext';
 import { useDataStore } from '../../utils/DataStore';
@@ -27,6 +27,7 @@ export function CommandPalette() {
   const commands: CommandItem[] = useMemo(() => {
     const navCommands: CommandItem[] = [
       { id: 'nav-about', label: 'Go to About', description: 'View about section', icon: <User size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('space')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
+      { id: 'nav-experience', label: 'Go to Experience', description: 'View work experience & internships', icon: <Briefcase size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
       { id: 'nav-projects', label: 'Go to Projects', description: 'View all projects', icon: <FolderOpen size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('defence')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
       { id: 'nav-skills', label: 'Go to Skills', description: 'View technical skills', icon: <Wrench size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('environment')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
       { id: 'nav-contact', label: 'Go to Contact', description: 'Get in touch', icon: <Mail size={16} />, action: () => { navigate('/'); setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 100); }, category: 'Navigation' },
@@ -39,6 +40,17 @@ export function CommandPalette() {
       { id: 'linkedin', label: 'Open LinkedIn', description: 'Professional network', icon: <ExternalLink size={16} />, action: () => window.open('https://www.linkedin.com/in/jothirnadhreddy-peram-204025311/', '_blank'), category: 'Actions' },
     ];
 
+    const experienceCommands: CommandItem[] = [
+      {
+        id: 'exp-vir',
+        label: 'Vir Innovations Internship',
+        description: 'Robotics Engineering Intern · CAD, SOLIDWORKS & Electronics',
+        icon: <Briefcase size={16} />,
+        action: () => { navigate('/'); setTimeout(() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' }), 100); },
+        category: 'Experience',
+      },
+    ];
+
     const projectCommands: CommandItem[] = projects.map(p => ({
       id: `project-${p.id}`,
       label: p.title,
@@ -48,7 +60,7 @@ export function CommandPalette() {
       category: 'Projects',
     }));
 
-    return [...navCommands, ...actionCommands, ...projectCommands];
+    return [...navCommands, ...experienceCommands, ...actionCommands, ...projectCommands];
   }, [navigate, theme, toggleTheme, projects]);
 
   const filteredCommands = useMemo(() => {

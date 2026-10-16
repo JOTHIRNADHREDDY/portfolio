@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import RobotScene from './components/RobotScene';
 import { AboutSection } from './components/sections/AboutSection';
+import { ExperienceSection } from './components/sections/ExperienceSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { SkillsSection } from './components/sections/SkillsSection';
 import { FooterSection } from './components/sections/FooterSection';
@@ -24,6 +25,7 @@ function Home({ activeSection }: { activeSection: string }) {
       <RobotScene activeSection={activeSection} />
       <main>
         <AboutSection />
+        <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
         <FooterSection />
@@ -70,7 +72,7 @@ export default function App() {
       return;
     }
 
-    const sections = ['space', 'defence', 'environment', 'contact'];
+    const sections = ['space', 'experience', 'defence', 'environment', 'contact'];
     const scrollPosition = window.scrollY + window.innerHeight / 3;
 
     for (const section of sections) {
